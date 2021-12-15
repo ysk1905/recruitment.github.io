@@ -6231,7 +6231,7 @@ img {
 .employers-cv-content .bar {
   height: 7px;
   width: 85px;
-  background: #33d5ad;
+  background: #bbe8eb  ;
   position: relative;
   border-radius: 50px;
 }
@@ -6311,7 +6311,8 @@ img {
 }
 .employers-cv-btn a:hover {
   background-color: #000;
-  color: #fff;
+  color: #fff !important;
+  cursor: pointer;
 }
 .contact-info-item {
   position: relative;
