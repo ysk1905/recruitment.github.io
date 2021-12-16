@@ -2,7 +2,7 @@
 @import "dashboard.css";
 :root {
   --bodyFonts: "Work Sans", sans-serif;
-  --mainColor: #00ca99;
+  --mainColor: #0980cd;
   --titleColor: #000000;
   --bodyColor: #696969;
   --whiteColor: #ffffff;
@@ -1135,7 +1135,8 @@ img {
   background-color: var(--whiteColor);
 }
 .side-nav-responsive .side-nav-inner .side-nav {
-  background-color: #e5faf5;
+  background-color: #b9e9f7
+;
   padding: 7px 0 7px 7px;
 }
 .side-nav-responsive .side-nav-inner .side-nav .side-nav-item {
@@ -1174,7 +1175,8 @@ img {
   line-height: 1;
 }
 .banner-area {
-  background-color: #e5faf5;
+  background-color: #b9e9f7
+;
   padding: 100px 0 0;
   position: relative;
   z-index: 1;
@@ -1985,7 +1987,7 @@ img {
 }
 .services-card i.services-bg2 {
   background-color: #d9f7f0;
-  color: #00ca99;
+  color: #0980cd;
 }
 .services-card i.services-bg3 {
   background-color: #fee7dd;
@@ -2200,7 +2202,7 @@ img {
   background-color: #fee7dd;
 }
 .browse-jobs-item i.jobs-card-bg6 {
-  color: #00ca99;
+  color: #0980cd;
   background-color: #d9f7f0;
 }
 .browse-jobs-item i.jobs-card-bg7 {
@@ -2252,8 +2254,9 @@ img {
   color: #deae05;
 }
 .browse-jobs-list h3 i.jobs-list-icon2 {
-  background-color: #e5faf5;
-  color: #00ca99;
+  background-color: #b9e9f7
+;
+  color: #0980cd;
 }
 .browse-jobs-list h3 i.jobs-list-icon3 {
   background-color: #fce6eb;
@@ -2501,7 +2504,8 @@ img {
 }
 .job-post-card .content .content-list2 li.time {
   color: var(--mainColor);
-  background-color: #e5faf5;
+  background-color: #b9e9f7
+;
 }
 .job-post-card .content .content-list2 li.freelance {
   color: #ff5b4a;
@@ -2978,7 +2982,8 @@ img {
   display: inline-block;
   padding: 9px 20px;
   color: var(--mainColor);
-  background-color: #e5faf5;
+  background-color: #b9e9f7
+;
   border-radius: 5px;
   -webkit-transition: var(--transition);
   transition: var(--transition);
@@ -3402,7 +3407,8 @@ img {
 }
 .find-jobs-card .content .content-list li.time {
   color: var(--mainColor);
-  background-color: #e5faf5;
+  background-color: #b9e9f7
+;
 }
 .find-jobs-card .content .content-list li.freelance {
   color: #ff5b4a;
@@ -3734,7 +3740,8 @@ img {
 }
 .recent-job-item .job-list2 li.full-time {
   color: var(--mainColor);
-  background-color: #e5faf5;
+  background-color: #b9e9f7
+;
 }
 .recent-job-item .job-list2 li.part-time {
   color: #ff5b4a;
@@ -3857,7 +3864,8 @@ img {
 }
 .recent-job-card .job-sub-content .job-list2 li.time {
   color: var(--mainColor);
-  background-color: #e5faf5;
+  background-color: #b9e9f7
+;
 }
 .recent-job-card .job-sub-content .job-list2 li.freelance {
   color: #ff5b4a;
@@ -5900,7 +5908,8 @@ img {
   width: 25px;
   height: 25px;
   line-height: 26px;
-  background-color: #e5faf5;
+  background-color: #b9e9f7
+;
   color: var(--mainColor);
   border-radius: 50px;
   font-size: 15px;
@@ -6222,7 +6231,7 @@ img {
 .employers-cv-content .bar {
   height: 7px;
   width: 85px;
-  background: #33d5ad;
+  background: #bbe8eb  ;
   position: relative;
   border-radius: 50px;
 }
@@ -6302,7 +6311,8 @@ img {
 }
 .employers-cv-btn a:hover {
   background-color: #000;
-  color: #fff;
+  color: #fff !important;
+  cursor: pointer;
 }
 .contact-info-item {
   position: relative;
@@ -6330,7 +6340,7 @@ img {
   background-color: #fee7dd;
 }
 .contact-info-item i.contact-info-bg2 {
-  color: #00ca99;
+  color: #0980cd;
   background-color: #d9f7f0;
 }
 .contact-info-item i.contact-info-bg3 {
@@ -6843,7 +6853,8 @@ img {
   text-align: center;
   font-size: 15px;
   color: var(--mainColor);
-  background-color: #e5faf5;
+  background-color: #b9e9f7
+;
   padding: 10px 30px;
   -webkit-transition: var(--transition);
   transition: var(--transition);

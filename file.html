@@ -1,0 +1,331 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <?!= include('Stylesheet'); ?>
+    <!-- <link rel="stylesheet" href="assets/css/bootstrap.min.css" /> -->
+
+    <!-- <link rel="stylesheet" href="assets/css/style.css" /> -->
+    <title>Imploy - Upload</title>
+
+    <style>
+      body {
+        background-color: #ede7f67e;
+      }
+      .top {
+        height: 300px;
+      }
+      .preloader-wrapper {
+        top: 17px;
+        position: relative;
+        left: 25px;
+        visibility: hidden;
+      }
+      .error {
+        color: #ef0a5b;
+        font-size: 12px;
+      }
+      .spacious {
+        margin-bottom: 20px;
+      }
+      .after-submit {
+        display: none;
+      }
+      .after-submit {
+        padding: 10% 15%;
+      }
+      .loader {
+        display:none
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        $("select").material_select();
+        $("select[required]").css({
+          display: "inline",
+          height: 0,
+          padding: 0,
+          width: 0,
+        });
+        window.picker = $(".datepicker").pickadate({
+          selectYears: 16, // Creates a dropdown of 15 years to control year
+          format: "yyyy-mm-dd",
+        });
+      });
+      var finalFilesData = [];
+      var reader = new FileReader();
+      var fileArr = [],
+        nameArr = [];
+      var formObj = {};
+      var fileName, inputName;
+      var flag = false;
+      // Upload the file to Google Drive
+      reader.onloadend = function (e) {
+        finalFilesData.push({
+          inputName: inputName,
+          fileName: fileName,
+          data: e.target.result,
+        });
+        flag = false;
+      };
+
+      // Read the file on form submit
+      function submitForm(event) {
+        //event.preventDefault();
+        $("input,textarea,select")
+          .not(
+            ":input[type=button],:input[type=submit], :input[type=reset],.file-path,.select-dropdown,.picker__select--year"
+          )
+          .each(function (index, item) {
+            if (nameArr.indexOf($(item).attr("name")) < 0) {
+              nameArr.push({
+                name: $(item).attr("name"),
+                type: $(item).attr("type"),
+              });
+            }
+          });
+        $("input,textarea,select")
+          .not(
+            ":input[type=button],:input[type=submit], :input[type=reset],:input[type=file],.file-path,.select-dropdown,.picker__select--year"
+          )
+          .each(function (index, item) {
+            if ($(item).attr("type") == "radio") {
+              if ($(item).is(":checked")) {
+                formObj[$(item).attr("name")] = $(item).val();
+              }
+            } else if ($(item).attr("type") == "checkbox") {
+              if ($(item).is(":checked")) {
+                if (formObj[$(item).attr("name")]) {
+                  formObj[$(item).attr("name")] += "," + $(item).val();
+                } else {
+                  formObj[$(item).attr("name")] = $(item).val();
+                }
+              }
+            } else {
+              formObj[$(item).attr("name")] = $(item).val();
+            }
+          });
+        $("input[type=file]").each(function (index, item) {
+          fileArr.push({
+            inputName: $(item).attr("name"),
+            file: $(item)[0].files[0],
+          });
+        });
+
+        var isValid = true;
+        for (var i = 0; i < nameArr.length; i++) {
+          $("[name='" + nameArr[i].name + "']")
+            .closest(".row")
+            .find(".error")
+            .remove();
+          if (nameArr[i].type != "file") {
+            if (
+              formObj[nameArr[i].name] == undefined ||
+              formObj[nameArr[i].name] == "" ||
+              formObj[nameArr[i].name] == null
+            ) {
+              if (
+                $("[name='" + nameArr[i].name + "']")
+                  .first()
+                  .prop("required")
+              ) {
+                isValid = false;
+                $("[name='" + nameArr[i].name + "']")
+                  .first()
+                  .closest(".row")
+                  .append(
+                    "<div class='error col s12'>This field is required</div>"
+                  );
+              }
+            }
+          } else {
+            if (!isFileSelected(nameArr[i].name)) {
+              if (
+                $("[name='" + nameArr[i].name + "']")
+                  .first()
+                  .prop("required")
+              ) {
+                isValid = false;
+                $("[name='" + nameArr[i].name + "']")
+                  .first()
+                  .closest(".row")
+                  .append(
+                    "<div class='error col s12'>This field is required</div>"
+                  );
+              }
+            }
+          }
+        }
+        if (!isValid) {
+          return false;
+        }
+
+        $(".preloader-wrapper").css("visibility", "visible");
+        $(".loader").show();
+        var repeatInterval = setInterval(function () {
+          if (!flag) {
+            if (fileArr.length > 0) {
+              var file = fileArr.pop();
+              if (file.file != undefined) {
+                fileName = file.file.name;
+                inputName = file.inputName;
+                flag = true;
+                reader.readAsDataURL(file.file);
+              }
+            } else {
+              window.clearInterval(repeatInterval);
+              google.script.run
+                .withSuccessHandler(showMessage)
+                .uploadFileToGoogleDrive(finalFilesData, formObj);
+            }
+          }
+        }, 200);
+
+        return false;
+      }
+      function isFileSelected(name) {
+        for (var j = 0; j < fileArr.length; j++) {
+          if (fileArr[j].inputName == name) {
+            if (fileArr[j].file) {
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+      function showMessage(e) {
+        $(".after-submit").show();
+        $(".form-submit").hide();
+        $(".upload-heading").hide();
+        $(".loader").hide();
+        $("input:checkbox").removeAttr("checked");
+        $("#formValidate")[0].reset();
+        $(".preloader-wrapper").css("visibility", "hidden");
+      }
+      function openForm() {
+        $(".after-submit").hide();
+        $(".form-submit").show();
+        $(".upload-heading").show();
+      }
+    </script>
+    <div class="container">
+      <div class="row after-submit mt-5 pt-5">
+        <div class="col-12 text-center">
+          <h4>Your form has been submitted successfully.</h4>
+          <p><a onClick="openForm()">Click here to submit a new entry</a></p>
+        </div>
+      </div>
+      <div class="row text-center py-5 upload-heading">
+        <h2>Upload Your Cv</h2>
+      </div>
+      <div class="row">
+        <div class="form-submit submit-resumes-box">
+          <form id="formValidate">
+            <div class="row">
+              <h3>Basic Information</h3>
+              <div class="col-lg-6 col-md-12">
+                <div class="form-group">
+                  <label for="name">Your Name</label>
+                  <input
+                    id="name"
+                    type="text"
+                    name="Full Name"
+                    class="validate form-control"
+                    required="true"
+                    aria-required="true"
+                    placeholder="Your Name"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-12">
+                <div class="form-group">
+                  <label for="email">Your Email</label>
+                  <input
+                    id="email"
+                    type="email"
+                    name="Email"
+                    class="validate form-control"
+                    placeholder="Your Email"
+                    aria-required="true"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12">
+                  <div class="form-group">
+                    <label for="file2">Upload your Cv</label>
+                    <input
+                      type="file"
+                      required="true"
+                      name="file2"
+                      id="file2"
+                      value="file2"
+                      class="form-control"
+                      style="padding-top: 18px;"
+                    />
+                    <!-- <input class="file-path validate form-control" type="text" /> -->
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                  <label for="message">Description</label>
+                  <textarea
+                    id="message"
+                    name="Message"
+                    required="true"
+                    class="form-control"
+                    value="message"
+                    cols="30"
+                    rows="6"
+                    placeholder="Short description about you..."
+                    data-length="150"
+                  ></textarea>
+                  <!-- <label for="message">Message</label> -->
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 text-center loader">
+                <div class="form-group">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 d-flex justify-content-center">
+                <div class="form-group">
+                  <button
+                    class="default-btn"
+                    onClick="submitForm(event)"
+                    type="button"
+                    name="action"
+                  >
+                    Submit
+                  </button>
+                  <div class="preloader-wrapper small active">
+                    <div class="spinner-layer spinner-teal-only">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div>
+                      <div class="gap-patch">
+                        <div class="circle"></div>
+                      </div>
+                      <div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
