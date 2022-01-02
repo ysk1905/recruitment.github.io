@@ -70,22 +70,22 @@
             >
               <ul class="navbar-nav ms-auto me-5">
                 <li class="nav-item">
-                  <a href="index.html" class="nav-link active"> Home </a>
+                  <a href="index.html" class="nav-link active" > Home </a>
                 </li>
                 
                 <li class="nav-item">
-                  <a href="#whyus" class="nav-link"> Why Imploy </a>
+                  <a href="index.html#whyus" class="nav-link"> Why Imploy </a>
                 </li>
                 <li class="nav-item">
-                  <a href="#Sectors" class="nav-link"> Sectors </a>
+                  <a href="index.html#Sectors" class="nav-link"> Sectors </a>
                 </li>
                 <li class="nav-item">
-                  <a href="#hiring" class="nav-link"> How We Do </a>
+                  <a href="index.html#hiring" class="nav-link"> How We Do </a>
                 </li>
                 
                 
                 <li class="nav-item">
-                  <a href="#contactus" class="nav-link"> Contact Us</a>
+                  <a href="index.html#contactus" class="nav-link"> Contact Us</a>
                 </li>
               </ul>
               <!-- <div class="others-options d-flex align-items-center">
@@ -97,6 +97,7 @@
               </div> -->
             </div>
           </nav>
+          
         </div>
       </div>
       <div class="side-nav-responsive">
@@ -234,6 +235,12 @@
       @media screen and (max-width: 756px) {
         .section-heading {
           font-size: 36px !important;
+        }
+        #Sectors{
+          padding-top: 100px;
+        }
+        .blog-details-content {
+          padding-top: 100px;
         }
       }
     </style>
@@ -526,10 +533,10 @@
     <script>
       AOS.init();
     </script>
-    <script
+    <!-- <script
       data-cfasync="false"
       src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
-    ></script>
+    ></script> -->
     <script src="assets/js/jquery.min.js"></script>
 
     <script src="assets/js/bootstrap.bundle.min.js"></script>
@@ -563,6 +570,14 @@
     <script src="assets/js/contact-form-script.js"></script>
 
     <script src="assets/js/custom.js"></script>
+    <script>
+      $(".nav-link").click((e) => {
+        $(".mean-nav ul").hide();
+        // $(".meanmenu-reveal").removeClass("meanclose");
+        $(".meanmenu-reveal").html("<span /><span /><span />");
+        console.log(e.target.innerHTML);
+      })
+    </script>
   </body>
 
   </html>
