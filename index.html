@@ -346,15 +346,17 @@
     <div class="comments-form" style="padding-top: 100px"  data-aos="zoom-in-up">
       <div class="contact-form mx-4 mx-sm-auto">
         <h3><b>Planning Your Next Hire?</b></h3>
-        <form id="contactForm">
+        <!-- <form id="contactForm"> -->
+        <!-- <form id="my-form" method="POST" action="https://script.google.com/macros/s/AKfycbzf-jtok6zOuyC2Xv4VAst8DWIItQk1jbuuIO-KZ4lCY3Bd6wUkHFj9Tby7k2dxy5lN-A/exec" > -->
+        <form id="my-form">
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
                 <label>Your Name</label>
                 <input
                   type="text"
-                  name="name"
-                  id="name"
+                  name="Name"
+                  id="Name"
                   class="form-control"
                   required
                   data-error="Please Enter Your Name"
@@ -365,12 +367,12 @@
               <div class="form-group">
                 <label>Company Name</label>
                 <input
-                  type="email"
-                  name="email"
-                  id="email"
+                  type="text"
+                  name="CompanyName"
+                  id="CompanyName"
                   class="form-control"
                   required
-                  data-error="Please Enter Your Email"
+                  data-error="Please Enter Your Company Name"
                 />
               </div>
             </div>
@@ -378,7 +380,9 @@
               <div class="form-group">
                 <label>Company email ID</label>
                 <input
-                  type="text"
+                  type="email"
+                  name="CompanyEmail"
+                  id="CompanyEmail"
                   required
                   data-error="Please Enter Your Website"
                   class="form-control"
@@ -390,8 +394,8 @@
                 <label>Designation</label>
                 <input
                   type="text"
-                  name="msg_subject"
-                  id="msg_subject"
+                  name="Designation"
+                  id="Designation"
                   class="form-control"
                   required
                   data-error="Please Enter Your Subject"
@@ -402,8 +406,9 @@
               <div class="form-group">
                 <label>Message</label>
                 <textarea
-                  name="comment"
                   class="form-control"
+                  name="Message"
+                  id="Message"
                   cols="30"
                   rows="5"
                   required
@@ -423,6 +428,24 @@
         </form>
       </div>
     </div>
+    <script>
+      window.addEventListener("load", function() {
+        const form = document.getElementById('my-form');
+        form.addEventListener("submit", function(e) {
+          e.preventDefault();
+          const data = new FormData(form);
+          const action = "https://script.google.com/macros/s/AKfycbzf-jtok6zOuyC2Xv4VAst8DWIItQk1jbuuIO-KZ4lCY3Bd6wUkHFj9Tby7k2dxy5lN-A/exec";
+          fetch(action, {
+            method: 'POST',
+            body: data,
+          })
+          .then(() => {
+            alert("Form Submitted Successfully!");
+          })
+          .catch((err) => alert(err))
+        });
+      });
+    </script>
     
     <!-- <div
       class="employers-cv-area"
@@ -561,7 +584,7 @@
 
     <script src="assets/js/form-validator.min.js"></script>
 
-    <script src="assets/js/contact-form-script.js"></script>
+    <!-- <script src="assets/js/contact-form-script.js"></script> -->
 
     <script src="assets/js/custom.js"></script>
     <script>
